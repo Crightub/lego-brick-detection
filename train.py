@@ -57,7 +57,7 @@ def main(args):
     for epoch in range(args.epochs):
         train_single_epoch(model, optimizer, dataloader_train, device, epoch)
         lr_scheduler.step()
-        evaluate(model, dataloader_val)
+        evaluate(model, dataloader_val, device)
 
     end_time = time.time()
     training_time = end_time - start_time
