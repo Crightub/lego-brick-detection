@@ -15,7 +15,7 @@ def train_single_epoch(model, optimizer, dataloader_train, device, epoch, scaler
         images = [image.to(device) for image in images]
         targets = [{k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in t.items()} for t in targets]
 
-        with autocast('cuda'):
+        with autocast():
             loss_dict = model(images, targets)
             losses = sum(loss for loss in loss_dict.values()) / ACCUMULATION_STEPS
 
