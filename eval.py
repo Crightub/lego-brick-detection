@@ -146,7 +146,7 @@ class Evaluator:
 
 @torch.inference_mode()
 def evaluate(model, dataloader, device):
-    #cpu_device = torch.device("cpu")
+    cpu_device = torch.device("cpu")
     model.eval()
 
     total_evaluator_time = 0.0
@@ -154,9 +154,10 @@ def evaluate(model, dataloader, device):
 
     for batch_idx, (images, targets) in enumerate(dataloader):
         images = [image.to(device) for image in images]
-        targets = [{k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in t.items()} for t in targets]
-        preds = model(images, targets)
-        preds = [{k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in t.items()} for t in preds]
+        preds = model(images)
+
+        preds = [{k: v.to(cpu_device) if isinstance(v, torch.Tensor) else v for k, v in t.items()} for t in preds]
+        targets = [{k: v.to(cpu_device) if isinstance(v, torch.Tensor) else v for k, v in t.items()} for t in targets]
 
         res = {target['image_id']: (target, pred) for target, pred in zip(targets, preds)}
 
