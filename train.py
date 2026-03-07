@@ -4,6 +4,7 @@ import time
 
 import torch
 import torchvision
+from torch import GradScaler
 from torch.utils.data import DataLoader
 from torchvision.models.detection import FasterRCNN_ResNet50_FPN_Weights
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
@@ -51,11 +52,12 @@ def main(args):
 
     # define learning rate scheduler
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=args.milestones, gamma=args.gamma)
+    scaler = GradScaler('cuda')
 
     # run epochs
     start_time = time.time()
     for epoch in range(args.epochs):
-        train_single_epoch(model, optimizer, dataloader_train, device, epoch)
+        train_single_epoch(model, optimizer, dataloader_train, device, epoch, scaler)
         lr_scheduler.step()
         evaluate(model, dataloader_val, device)
 
