@@ -1,3 +1,5 @@
+import argparse
+import os
 import time
 
 import torch
@@ -11,13 +13,13 @@ from eval import evaluate
 
 
 def main(args):
-    device = torch.device('mps')
+    device = torch.device(args.device)
     print('Using device:', device)
 
     # Load train and validation data set
     print('Loading data...')
-    dataset_train = load_train_set(100)
-    dataset_val = load_val_set(50)
+    dataset_train = load_train_set(args.train_size)
+    dataset_val = load_val_set(args.val_size)
 
     num_classes = dataset_train.label_count()
     print(f'Number of classes: {num_classes}')
@@ -61,10 +63,20 @@ def main(args):
     training_time = end_time - start_time
     print("Training time: ", training_time)
 
-    save_checkpoint(model, optimizer, args.epochs)
+    save_checkpoint(model, optimizer, args.epochs, args.model_out_dir)
 
 
-def save_checkpoint(model, optimizer, epoch, filename='lego_model_final.pth'):
+def generate_model_name(out_dir):
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+
+    return out_dir + '/' + timestamp + '.pth'
+
+
+def save_checkpoint(model, optimizer, epoch, out_dir):
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+
+    filename = generate_model_name(out_dir)
     checkpoint = {
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -74,15 +86,18 @@ def save_checkpoint(model, optimizer, epoch, filename='lego_model_final.pth'):
     print(f"Checkpoint saved to {filename}")
 
 
-class Args:
-    def __init__(self):
-        self.lr = 1e-4
-        self.weight_decay = 1e-4
-        self.batch_size = 20
-        self.epochs = 2
-        self.milestones = [100, 150]
-        self.gamma = 0.1
-
+local_train_preset = argparse.Namespace(
+    train_size=15,
+    val_size=5,
+    lr=1e-4,
+    weight_decay=1e-4,
+    batch_size=5,
+    epochs=1,
+    milestones=[100, 150],
+    gamma=0.1,
+    device='cpu',
+    model_out_dir='model'
+)
 
 if __name__ == '__main__':
-    main(Args())
+    main(local_train_preset)
