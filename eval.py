@@ -79,8 +79,8 @@ class Evaluator:
             tp_sum = np.cumsum(tp)
             fp_sum = np.cumsum(fp)
 
-            recall = tp / total_gt
-            precision = tp / (tp_sum + fp_sum + 1e-10)
+            recall = tp_sum / total_gt
+            precision = tp_sum / (tp_sum + fp_sum + 1e-10)
 
             ap = self._calculate_ap(recall, precision)
             all_ap.append(ap)
