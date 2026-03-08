@@ -40,6 +40,9 @@ def main(args):
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
     if hasattr(model, 'roi_heads'):
         model.roi_heads.score_thresh = 0.01
+        model.roi_heads.nms_thresh = 0.5
+        model.roi_heads.detections_per_img = 500
+
     model.to(device)
 
     print('Setup Training...')
