@@ -9,8 +9,8 @@ from torch.utils.data import DataLoader
 from torchvision.models.detection import FasterRCNN_ResNet50_FPN_Weights
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from b200_lego_dataset import load_train_set, load_val_set
-from engine import train_single_epoch
-from eval import evaluate
+from FastRCNN.engine import train_single_epoch
+from FastRCNN.eval import evaluate
 
 
 def main(args):
@@ -118,8 +118,8 @@ local_train_preset = argparse.Namespace(
     milestones=[100, 150],
     gamma=0.1,
     device='cpu',
-    model_out_dir='model',
-    resume='model/latest_model.pth',
+    model_out_dir='../model',
+    resume=False,
     start_epoch=0,
 )
 

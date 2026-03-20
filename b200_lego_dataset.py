@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 import torch
 import csv
 
-from presets import get_transforms
+from FastRCNN.presets import get_transforms
 
 class LegoImageDataset(Dataset):
     """
