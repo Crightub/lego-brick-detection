@@ -41,7 +41,7 @@ def main_val(args):
 
 
 local_train_preset = argparse.Namespace(
-    data_yaml='YoloStage1/dataset.yaml',
+    data_yaml='YoloStage1/local_dataset.yaml',
     lr=1e-4,
     weight_decay=1e-4,
     batch_size=8,
