@@ -5,9 +5,9 @@ import argparse
 from torch.utils.data import DataLoader
 from pytorch_metric_learning.losses import ArcFaceLoss
 
-from model import ViTClassifier
-from dataset import load_train_set, load_val_set, get_class_id_map
-from engine import train_single_epoch, evaluate
+from ViTS16_Stage2.model import ViTClassifier
+from ViTS16_Stage2.dataset import load_train_set, load_val_set, get_class_id_map
+from ViTS16_Stage2.engine import train_single_epoch, evaluate
 
 
 def main(args):
