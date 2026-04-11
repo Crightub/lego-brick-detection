@@ -2,12 +2,12 @@ import argparse
 from ultralytics import YOLO
 
 def main(args):
-    model = YOLO('../yolov8m.pt')  # downloads pretrained weights automatically
+    model = YOLO('../yolov8m.pt')  #
 
     model.train(
         data=args.data_yaml,
         epochs=args.epochs,
-        imgsz=640,             # matches your image size exactly
+        imgsz=640,
         batch=args.batch_size,
         lr0=args.lr,
         weight_decay=args.weight_decay,
@@ -15,13 +15,20 @@ def main(args):
         device=args.device,
         project=args.model_out_dir,
         name='stage1',
-        save_period=5,         # mimics your every-5-epoch rollback saves
+        save_period=5,
         exist_ok=True,
 
         # Dense scene tuning — critical for your use case
         iou=0.3,               # low IoU NMS threshold — avoids merging adjacent pieces
         conf=0.01,             # low conf threshold during val — maximise recall
         max_det=500,           # matches your current detections_per_img
+
+        mosaic=0.0,            # Turn off mosaic. Prevents stitching four 400-piece images together.
+        scale=0.9,             # High scale variance (+/- 90%). Forces aggressive random zooming in/out and cropping.
+        translate=0.3,         # Shifts the image up/down/left/right by 30%, cropping off dense edges.
+        degrees=15.0,          # Adds slight rotation so the model doesn't overfit to Blender's perfect grid drops.
+        perspective=0.001,     # Adds slight camera tilt/distortion to simulate real-world phone angles.
+        erasing=0.2,
     )
 
 def main_val(args):
