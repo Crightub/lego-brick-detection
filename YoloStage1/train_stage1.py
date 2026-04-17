@@ -2,7 +2,7 @@ import argparse
 from ultralytics import YOLO
 
 def main(args):
-    model = YOLO('../yolov8m.pt')  #
+    model = YOLO('../yolov8m.pt')
 
     model.train(
         data=args.data_yaml,

@@ -26,11 +26,11 @@ if __name__ == '__main__':
         stage2_path='model/stage2/best_model.pth',
         labels_map_path='data/labels_map.csv',
         device='cpu',
-        conf=0.01,
-        iou=0.3,
+        conf=0.35,
+        iou=0.5,
     )
 
-    image = Image.open('data/train/images/1.png').convert('RGB')
+    image = Image.open('data/inference/IMG_1789.png').convert('RGB').resize((640,640))
     result = pipeline.predict(image)
 
     print(f"Detected {len(result['boxes'])} pieces")

@@ -106,7 +106,7 @@ class LegoPipeline:
             source=np.array(image),
             conf=self.conf,
             iou=self.iou,
-            max_det=500,
+            max_det=200,
             verbose=False
         )[0]
 
