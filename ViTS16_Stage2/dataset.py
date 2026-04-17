@@ -43,9 +43,4 @@ def load_val_set(crops_val_dir: str):
 
 
 def get_class_id_map(dataset: ImageFolder) -> dict:
-    """
-    Returns a dict mapping ImageFolder internal index → real part ID (int).
-    ImageFolder sorts folder names alphabetically so '1','10','100'...
-    not '1','2','3'... — this map corrects for that at inference time.
-    """
     return {v: int(k) for k, v in dataset.class_to_idx.items()}
